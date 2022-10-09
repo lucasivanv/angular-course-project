@@ -1,14 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-auth',
     templateUrl: './auth.component.html',
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
 
-    constructor() { }
+    isLoginMode = true;
 
-    ngOnInit(): void {
+    onSwitchMode() {
+        this.isLoginMode = !this.isLoginMode;
     }
 
 }
