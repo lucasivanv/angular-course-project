@@ -31,6 +31,11 @@ export class RecipeService {
 
     constructor(private shoppingListService: ShoppingListService) {}
 
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
     getRecipes() {
         // without slice will return a pointer to recipes
         return this.recipes.slice();
