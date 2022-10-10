@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { catchError, finalize } from 'rxjs';
-import { AuthService } from './auth.service';
+import { catchError, finalize, Observable, throwError } from 'rxjs';
+import { AuthResponseData, AuthService } from './auth.service';
 
 @Component({
     selector: 'app-auth',
@@ -24,21 +24,25 @@ export class AuthComponent {
         if (!form.valid) return;
 
         const { email, password } = form.value;
+
         this.isLoading = true;
+        let authObservable: Observable<AuthResponseData>;
 
         if (this.isLoginMode) {
-            // TODO
+            authObservable = this.authService.login(email, password)
         } else {
-            this.authService.signup(email, password)
-                .pipe(
-                    finalize(() => this.isLoading = false),
-                    catchError(error => {
-                        this.error = "An error occurred!"
-                        throw error;
-                    })
-                )
-                .subscribe();
+            authObservable = this.authService.signup(email, password)
         }
+
+        authObservable
+            .pipe(
+                finalize(() => this.isLoading = false),
+                catchError(errorMessage => {
+                    this.error = errorMessage?.message;
+                    return throwError(() => new Error(errorMessage));
+                })
+            )
+            .subscribe();
         form.reset();
     }
 }
