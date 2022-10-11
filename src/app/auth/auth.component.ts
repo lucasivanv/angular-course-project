@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { AuthResponseData, AuthService } from './auth.service';
 
@@ -13,7 +14,8 @@ export class AuthComponent {
     error: string = null;
 
     constructor(
-        private authService: AuthService
+        private authService: AuthService,
+        private router: Router,
     ) { }
 
     onSwitchMode() {
@@ -42,7 +44,7 @@ export class AuthComponent {
                     return throwError(() => new Error(errorMessage));
                 })
             )
-            .subscribe();
+            .subscribe(() => this.router.navigate(['/recipes']));
         form.reset();
     }
 }
