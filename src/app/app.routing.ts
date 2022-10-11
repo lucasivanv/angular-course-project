@@ -1,5 +1,7 @@
 import { Injectable, NgModule } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterModule, RouterStateSnapshot, Routes } from '@angular/router';
+import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
 import { RecipeDetailComponent } from './recipes/recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from './recipes/recipe-edit/recipe-edit.component';
 import { Recipe } from './recipes/recipe-model';
@@ -36,6 +38,7 @@ const routes: Routes = [
     {
         path: 'recipes',
         component: RecipesComponent,
+        canActivate: [AuthGuard],
         children: [
             {
                 path: '',
@@ -60,6 +63,10 @@ const routes: Routes = [
     {
         path: 'shopping-list',
         component: ShoppingListComponent
+    },
+    {
+        path: 'auth',
+        component: AuthComponent
     }
 ];
 
