@@ -28,6 +28,18 @@ const routes: Routes = [
         redirectTo: '/recipes',
         pathMatch: 'full'
     },
+    {
+        path: 'recipes',
+        loadChildren: () => import('./recipes/recipes.module').then(module => module.RecipesModules)
+    },
+    {
+        path: 'shopping-list',
+        loadChildren: () => import('./shopping-list/shopping-list.module').then(module => module.ShoppingListModule)
+    },
+    {
+        path: 'auth',
+        loadChildren: () => import('./auth/auth.module').then(module => module.AuthModule)
+    },
 ];
 
 @NgModule({
